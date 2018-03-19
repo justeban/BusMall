@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+section {
+  text-align: center;
+}
+#survey-images ul {
+  padding: 0;
+  list-style-type: none;
+}
+#survey-images li {
+  display: inline-block;
+  margin: 10px;
+}
+.survey-results h3 {
+  float: left;
+}
