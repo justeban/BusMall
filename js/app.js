@@ -1,23 +1,12 @@
 'use strict';
 
-//PSUEDO CODE ELEMENTS
-
-// select 3 random photos from the director and display them side by side
-// recieve clicks on the images and track how many times the image is clicked
-// also track how many times the image is displayed
-// On click 3 non-duplicating images are placed on the screen
-
-// Create  a constructor function that creates object for each image
-// function will include (nameOfImage, Filepath, number of times it has been shown, number of times clicked)
-
-//create text string property that can be used as html ID
-
-// after 25 selections turn off event listener to images
-
-// display list of products and how many times voted and displayed " banana was 3 times and clicked 2 times"
 var beginRandomIndex1 = 0;
 var beginRandomIndex2 = 0;
 var beginRandomIndex3 = 0;
+
+var randomIndex = [];
+var numberOfQuestions = 20;
+var questionsAsked = 0;
 
 // Variable where we will store each image in an array
 imgObject.allImages =[];
@@ -27,18 +16,19 @@ var imgPlace1 = document.getElementById('img1');
 var imgPlace2 = document.getElementById('img2');
 var imgPlace3 = document.getElementById('img3');
 
+var surveyResults = document.getElementById('survey-results');
 // Creating an event Listener and Callback function
 
-imgPlace1.addEventListener('click', randomMasterIndex);
-imgPlace2.addEventListener('click', randomMasterIndex);
-imgPlace3.addEventListener('click', randomMasterIndex);
+imgPlace1.addEventListener('click', imgClicked);
+imgPlace2.addEventListener('click', imgClicked);
+imgPlace3.addEventListener('click', imgClicked);
 
 // Creting the constructor function that will create our images
 function imgObject(name, filePath) {
   this.name = name;
   this.filePath = filePath;
   this.timesShown = 0;
-  this.timesClicked;
+  this.timesClicked = 0;
   imgObject.allImages.push(this);
 }
 
@@ -66,13 +56,31 @@ new imgObject('Egg Wine Glass', 'img/wine-glass.jpg');
 
 // Create random number function between 1 and 20
 
+function imgClicked(event) {
+
+  questionsAsked += 1;
+
+  if(event.target.id === 'img1') {
+    imgObject.allImages[randomIndex[0]].timesClicked++;
+  } else if (event.target.id === 'img2') {
+    imgObject.allImages[randomIndex[1]].timesClicked++;
+  } else if (event.target.id === 'img3') {
+    imgObject.allImages[randomIndex[2]].timesClicked++;
+  }
+  if (questionsAsked < numberOfQuestions) {
+    randomMasterIndex();
+  } else {
+    document.getElementById('survey-images').innerHTML = '';
+    displayResults();
+  }
+}
+
 function randomMasterIndex() {
-  var randomIndex = [];
 
   function randomIndexArray() {
-    randomIndex[0] = Math.floor(Math.random() * 20);
-    randomIndex[1] = Math.floor(Math.random() * 20);
-    randomIndex[2] = Math.floor(Math.random() * 20);
+    randomIndex[0] = Math.floor(Math.random() * imgObject.allImages.length);
+    randomIndex[1] = Math.floor(Math.random() * imgObject.allImages.length);
+    randomIndex[2] = Math.floor(Math.random() * imgObject.allImages.length);
   }
 
   randomIndexArray();
@@ -97,6 +105,21 @@ function randomMasterIndex() {
   imgPlace3.alt = imgObject.allImages[randomIndex[2]].name;
   imgObject.allImages[randomIndex[2]].timesShown ++;
 
+}
+
+function displayResults() {
+  var ulElement = document.createElement('ul');
+
+  for (var i in imgObject.allImages) {
+    var liElement = document.createElement('li');
+    liElement.textContent = 'The ' + imgObject.allImages[i].name + ' was shown ' + imgObject.allImages[i].timesShown + ' and was clicked on ' + imgObject.allImages[i].timesClicked + ' times.';
+
+    console.log(liElement);
+    ulElement.appendChild(liElement);
+    console.log(ulElement);
+  }
+  surveyResults.appendChild(ulElement);
+  document.getElementById('survey-title').style.display = 'inherit';
 }
 
 randomMasterIndex();
