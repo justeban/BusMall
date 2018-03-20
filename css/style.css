@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+section {
+  text-align: center;
+}
+#survey-images {
+  transition: all ease 1.8s;
+}
+#survey-images ul {
+  padding: 0;
+  list-style-type: none;
+}
+#survey-images li {
+  display: inline-block;
+  margin: 10px;
+}
+#survey-images img {
+  width: 250px;
+}
+.survey-results h3 {
+  display:none;
+}
+#survey-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
