@@ -12,6 +12,9 @@ section {
   display: inline-block;
   margin: 10px;
 }
+#survey-images img {
+  width: 250px;
+}
 .survey-results h3 {
   float: left;
 }
