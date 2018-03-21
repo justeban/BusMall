@@ -55,6 +55,8 @@ function fetchImgsFromStorage() {
 
   if (storedImgObject && storedImgObject.length) {
     ImgObject.allImages = storedImgObject;
+    updateNames();
+    return;
   }
 
   // Creating instances of Images
@@ -150,7 +152,11 @@ function displayImgs() {
   ImgObject.allImages[randomIndex[2]].timesShown++;
 
 }
-
+function updateNames() {
+  for (var i in ImgObject.allImages) {
+    imgNames[i] = ImgObject.allImages[i].name;
+  }
+}
 function updateVotes() {
   for (var i in ImgObject.allImages){
     imgVotes[i] = ImgObject.allImages[i].votes;
