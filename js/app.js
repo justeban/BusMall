@@ -160,6 +160,8 @@ function createTimesShownArray(){
 randomMasterIndex();
 
 function displayChart() {
+  document.getElementById('survey-title').style.display = 'inherit';
+
   var ctx = surveyResults.getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'horizontalBar',
