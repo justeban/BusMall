@@ -1,126 +1,200 @@
 'use strict';
 
-var beginRandomIndex1 = 0;
-var beginRandomIndex2 = 0;
-var beginRandomIndex3 = 0;
-
-var randomIndex = [];
-var numberOfQuestions = 20;
-var questionsAsked = 0;
-
 // Variable where we will store each image in an array
-imgObject.allImages =[];
+ImgObject.allImages = [];
+
+// Hold my random indexes
+var randomIndex = [];
+
+// array to store image names
+var imgNames = [];
+
+// array to store image votes
+var imgVotes = [];
+
+// array to store # of times shown
+var timesShown = [];
+
+// Storing previous indexes
+var prevRandomIndex1 = 0;
+var prevRandomIndex2 = 0;
+var prevRandomIndex3 = 0;
+
+// The nummber of times user will select an image
+var numberOfQuestions = 25;
+
+// Keeping track of how many questions asked
+var questionsAsked = 0;
 
 // determine where images will be displayed
 var imgPlace1 = document.getElementById('img1');
 var imgPlace2 = document.getElementById('img2');
 var imgPlace3 = document.getElementById('img3');
 
+// Create ID for event listener
+var surveyImages = document.getElementById('survey-images');
+// where survey results will be displayed
 var surveyResults = document.getElementById('survey-results');
-// Creating an event Listener and Callback function
 
-imgPlace1.addEventListener('click', imgClicked);
-imgPlace2.addEventListener('click', imgClicked);
-imgPlace3.addEventListener('click', imgClicked);
+// Creating an event Listener and Callback function
+surveyImages.addEventListener('click', imgClicked);
 
 // Creting the constructor function that will create our images
-function imgObject(name, filePath) {
+function ImgObject(name, filePath) {
   this.name = name;
   this.filePath = filePath;
   this.timesShown = 0;
-  this.timesClicked = 0;
-  imgObject.allImages.push(this);
+  this.votes = 0;
+  ImgObject.allImages.push(this);
+  imgNames.push(this.name);
 }
 
 // Creating instances of Images
-new imgObject('R2D2 Travel Luggage', 'img/bag.jpg');
-new imgObject('Banana Slicer', 'img/banana.jpg');
-new imgObject('Ipad Toliet Paper Holder', 'img/bathroom.jpg');
-new imgObject('Open Toed Rain Boots', 'img/boots.jpg');
-new imgObject('The Ultimate Breakfast Making Machine', 'img/breakfast.jpg');
-new imgObject('Meatball Bubble Gum', 'img/bubblegum.jpg');
-new imgObject('Convex Bottom Chair', 'img/chair.jpg');
-new imgObject('Alien Action Figure', 'img/cthulhu.jpg');
-new imgObject('A Duck-Billed Dog', 'img/dog-duck.jpg');
-new imgObject('Dragon Meat', 'img/dragon.jpg');
-new imgObject('Cutlery Pen', 'img/pen.jpg');
-new imgObject('Pet Sweeper', 'img/pet-sweep.jpg');
-new imgObject('Pizza Scissors', 'img/scissors.jpg');
-new imgObject('Shark Sleeping Bag', 'img/shark.jpg');
-new imgObject('A Baby Sweep', 'img/sweep.png');
-new imgObject('TaunTaun Sleeping Bag', 'img/tauntaun.jpg');
-new imgObject('Unicorn Meat', 'img/unicorn.jpg');
-new imgObject('Dragon USB', 'img/usb.gif');
-new imgObject('Never Ending Water Can', 'img/water-can.jpg');
-new imgObject('Egg Wine Glass', 'img/wine-glass.jpg');
+new ImgObject('R2D2 Travel Luggage', 'img/bag.jpg');
+new ImgObject('Banana Slicer', 'img/banana.jpg');
+new ImgObject('Ipad Toliet Paper Holder', 'img/bathroom.jpg');
+new ImgObject('Open Toed Rain Boots', 'img/boots.jpg');
+new ImgObject('The Ultimate Breakfast Making Machine', 'img/breakfast.jpg');
+new ImgObject('Meatball Bubble Gum', 'img/bubblegum.jpg');
+new ImgObject('Convex Bottom Chair', 'img/chair.jpg');
+new ImgObject('Alien Action Figure', 'img/cthulhu.jpg');
+new ImgObject('A Duck-Billed Dog', 'img/dog-duck.jpg');
+new ImgObject('Dragon Meat', 'img/dragon.jpg');
+new ImgObject('Cutlery Pen', 'img/pen.jpg');
+new ImgObject('Pet Sweeper', 'img/pet-sweep.jpg');
+new ImgObject('Pizza Scissors', 'img/scissors.jpg');
+new ImgObject('Shark Sleeping Bag', 'img/shark.jpg');
+new ImgObject('A Baby Sweep', 'img/sweep.png');
+new ImgObject('TaunTaun Sleeping Bag', 'img/tauntaun.jpg');
+new ImgObject('Unicorn Meat', 'img/unicorn.jpg');
+new ImgObject('Dragon USB', 'img/usb.gif');
+new ImgObject('Never Ending Water Can', 'img/water-can.jpg');
+new ImgObject('Egg Wine Glass', 'img/wine-glass.jpg');
 
-// Create random number function between 1 and 20
 
 function imgClicked(event) {
 
+  if(event.target.id === 'img1') {
+    ImgObject.allImages[randomIndex[0]].votes++;
+  } else if (event.target.id === 'img2') {
+    ImgObject.allImages[randomIndex[1]].votes++;
+  } else if (event.target.id === 'img3') {
+    ImgObject.allImages[randomIndex[2]].votes++;
+  } else {
+    return; // If they click on the container rather than the image
+  }
+
   questionsAsked += 1;
 
-  if(event.target.id === 'img1') {
-    imgObject.allImages[randomIndex[0]].timesClicked++;
-  } else if (event.target.id === 'img2') {
-    imgObject.allImages[randomIndex[1]].timesClicked++;
-  } else if (event.target.id === 'img3') {
-    imgObject.allImages[randomIndex[2]].timesClicked++;
-  }
   if (questionsAsked < numberOfQuestions) {
     randomMasterIndex();
   } else {
     document.getElementById('survey-images').innerHTML = '';
-    displayResults();
+
+    updateVotes();
+
+    createTimesShownArray();
+
+    displayChart();
   }
 }
 
 function randomMasterIndex() {
 
   function randomIndexArray() {
-    randomIndex[0] = Math.floor(Math.random() * imgObject.allImages.length);
-    randomIndex[1] = Math.floor(Math.random() * imgObject.allImages.length);
-    randomIndex[2] = Math.floor(Math.random() * imgObject.allImages.length);
+    randomIndex[0] = Math.floor(Math.random() * ImgObject.allImages.length);
+    randomIndex[1] = Math.floor(Math.random() * ImgObject.allImages.length);
+    randomIndex[2] = Math.floor(Math.random() * ImgObject.allImages.length);
   }
 
   randomIndexArray();
 
-  while (randomIndex[0] === randomIndex[1] || randomIndex[0] === randomIndex[2] || randomIndex[1] === randomIndex[2] || randomIndex.includes(beginRandomIndex1) || randomIndex.includes(beginRandomIndex2) || randomIndex.includes(beginRandomIndex3)){
+  while (randomIndex[0] === randomIndex[1] || randomIndex[0] === randomIndex[2] || randomIndex[1] === randomIndex[2] || randomIndex.includes(prevRandomIndex1) || randomIndex.includes(prevRandomIndex2) || randomIndex.includes(prevRandomIndex3)){
     randomIndexArray();
   }
 
-  beginRandomIndex1 = randomIndex[0];
-  beginRandomIndex2 = randomIndex[1];
-  beginRandomIndex3 = randomIndex[2];
+  prevRandomIndex1 = randomIndex[0];
+  prevRandomIndex2 = randomIndex[1];
+  prevRandomIndex3 = randomIndex[2];
 
-  imgPlace1.src = imgObject.allImages[randomIndex[0]].filePath;
-  imgPlace1.alt = imgObject.allImages[randomIndex[0]].name;
-  imgObject.allImages[randomIndex[0]].timesShown ++;
+  imgPlace1.src = ImgObject.allImages[randomIndex[0]].filePath;
+  imgPlace1.alt = ImgObject.allImages[randomIndex[0]].name;
+  ImgObject.allImages[randomIndex[0]].timesShown ++;
 
-  imgPlace2.src = imgObject.allImages[randomIndex[1]].filePath;
-  imgPlace2.alt = imgObject.allImages[randomIndex[1]].name;
-  imgObject.allImages[randomIndex[1]].timesShown ++;
+  imgPlace2.src = ImgObject.allImages[randomIndex[1]].filePath;
+  imgPlace2.alt = ImgObject.allImages[randomIndex[1]].name;
+  ImgObject.allImages[randomIndex[1]].timesShown ++;
 
-  imgPlace3.src = imgObject.allImages[randomIndex[2]].filePath;
-  imgPlace3.alt = imgObject.allImages[randomIndex[2]].name;
-  imgObject.allImages[randomIndex[2]].timesShown ++;
+  imgPlace3.src = ImgObject.allImages[randomIndex[2]].filePath;
+  imgPlace3.alt = ImgObject.allImages[randomIndex[2]].name;
+  ImgObject.allImages[randomIndex[2]].timesShown ++;
 
 }
 
-function displayResults() {
-  var ulElement = document.createElement('ul');
-
-  for (var i in imgObject.allImages) {
-    var liElement = document.createElement('li');
-    liElement.textContent = 'The ' + imgObject.allImages[i].name + ' was shown ' + imgObject.allImages[i].timesShown + ' and was clicked on ' + imgObject.allImages[i].timesClicked + ' times.';
-
-    console.log(liElement);
-    ulElement.appendChild(liElement);
-    console.log(ulElement);
+function updateVotes() {
+  for (var i in ImgObject.allImages){
+    imgVotes[i] = ImgObject.allImages[i].votes;
   }
-  surveyResults.appendChild(ulElement);
-  document.getElementById('survey-title').style.display = 'inherit';
 }
+
+function createTimesShownArray(){
+  for (var i in ImgObject.allImages){
+    timesShown[i] = ImgObject.allImages[i].timesShown;
+
+  }
+}
+
+// function displayResults() {
+//   var ulElement = document.createElement('ul');
+
+//   for (var i in ImgObject.allImages) {
+//     var liElement = document.createElement('li');
+//     liElement.textContent = 'The ' + ImgObject.allImages[i].name + ' was shown ' + ImgObject.allImages[i].timesShown + ' and was clicked on ' + ImgObject.allImages[i].votes + ' times.';
+
+//     ulElement.appendChild(liElement);
+//   }
+//   surveyResults.appendChild(ulElement);
+//   document.getElementById('survey-title').style.display = 'inherit';
+// }
 
 randomMasterIndex();
+
+function displayChart() {
+  document.getElementById('survey-title').style.display = 'inherit';
+
+  var ctx = surveyResults.getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: imgNames,
+      datasets: [{
+        label: 'No. of Votes',
+        data: imgVotes,
+        backgroundColor: 'rgba(230,45, 60, .4)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1
+      },
+      {
+        label: 'No. of Times Shown',
+        data: timesShown,
+        backgroundColor: 'rgba(102,102,255,.5)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          stacked: true
+        }],
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 
