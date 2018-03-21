@@ -49,28 +49,39 @@ function ImgObject(name, filePath) {
   imgNames.push(this.name);
 }
 
-// Creating instances of Images
-new ImgObject('R2D2 Travel Luggage', 'img/bag.jpg');
-new ImgObject('Banana Slicer', 'img/banana.jpg');
-new ImgObject('Ipad Toliet Paper Holder', 'img/bathroom.jpg');
-new ImgObject('Open Toed Rain Boots', 'img/boots.jpg');
-new ImgObject('The Ultimate Breakfast Making Machine', 'img/breakfast.jpg');
-new ImgObject('Meatball Bubble Gum', 'img/bubblegum.jpg');
-new ImgObject('Convex Bottom Chair', 'img/chair.jpg');
-new ImgObject('Alien Action Figure', 'img/cthulhu.jpg');
-new ImgObject('A Duck-Billed Dog', 'img/dog-duck.jpg');
-new ImgObject('Dragon Meat', 'img/dragon.jpg');
-new ImgObject('Cutlery Pen', 'img/pen.jpg');
-new ImgObject('Pet Sweeper', 'img/pet-sweep.jpg');
-new ImgObject('Pizza Scissors', 'img/scissors.jpg');
-new ImgObject('Shark Sleeping Bag', 'img/shark.jpg');
-new ImgObject('A Baby Sweep', 'img/sweep.png');
-new ImgObject('TaunTaun Sleeping Bag', 'img/tauntaun.jpg');
-new ImgObject('Unicorn Meat', 'img/unicorn.jpg');
-new ImgObject('Dragon USB', 'img/usb.gif');
-new ImgObject('Never Ending Water Can', 'img/water-can.jpg');
-new ImgObject('Egg Wine Glass', 'img/wine-glass.jpg');
+function fetchImgsFromStorage() {
 
+  var storedImgObject = JSON.parse(localStorage.getItem('storedImgObject'));
+
+  if (storedImgObject && storedImgObject.length) {
+    ImgObject.allImages = storedImgObject;
+  }
+
+  // Creating instances of Images
+  new ImgObject('R2D2 Travel Luggage', 'img/bag.jpg');
+  new ImgObject('Banana Slicer', 'img/banana.jpg');
+  new ImgObject('Ipad Toliet Paper Holder', 'img/bathroom.jpg');
+  new ImgObject('Open Toed Rain Boots', 'img/boots.jpg');
+  new ImgObject('The Ultimate Breakfast Making Machine', 'img/breakfast.jpg');
+  new ImgObject('Meatball Bubble Gum', 'img/bubblegum.jpg');
+  new ImgObject('Convex Bottom Chair', 'img/chair.jpg');
+  new ImgObject('Alien Action Figure', 'img/cthulhu.jpg');
+  new ImgObject('A Duck-Billed Dog', 'img/dog-duck.jpg');
+  new ImgObject('Dragon Meat', 'img/dragon.jpg');
+  new ImgObject('Cutlery Pen', 'img/pen.jpg');
+  new ImgObject('Pet Sweeper', 'img/pet-sweep.jpg');
+  new ImgObject('Pizza Scissors', 'img/scissors.jpg');
+  new ImgObject('Shark Sleeping Bag', 'img/shark.jpg');
+  new ImgObject('A Baby Sweep', 'img/sweep.png');
+  new ImgObject('TaunTaun Sleeping Bag', 'img/tauntaun.jpg');
+  new ImgObject('Unicorn Meat', 'img/unicorn.jpg');
+  new ImgObject('Dragon USB', 'img/usb.gif');
+  new ImgObject('Never Ending Water Can', 'img/water-can.jpg');
+  new ImgObject('Egg Wine Glass', 'img/wine-glass.jpg');
+
+}
+
+fetchImgsFromStorage();
 
 function imgClicked(event) {
 
@@ -87,7 +98,7 @@ function imgClicked(event) {
   questionsAsked += 1;
 
   if (questionsAsked < numberOfQuestions) {
-    randomMasterIndex();
+    finalRandomIndex();
   } else {
     document.getElementById('survey-images').innerHTML = '';
 
@@ -95,39 +106,48 @@ function imgClicked(event) {
 
     createTimesShownArray();
 
+    // function to save to local storage
+    imgsToStorage();
+
     displayChart();
   }
 }
 
-function randomMasterIndex() {
+function finalRandomIndex() {
 
-  function randomIndexArray() {
+  function preRandomIndex() {
     randomIndex[0] = Math.floor(Math.random() * ImgObject.allImages.length);
     randomIndex[1] = Math.floor(Math.random() * ImgObject.allImages.length);
     randomIndex[2] = Math.floor(Math.random() * ImgObject.allImages.length);
   }
 
-  randomIndexArray();
+  preRandomIndex();
 
   while (randomIndex[0] === randomIndex[1] || randomIndex[0] === randomIndex[2] || randomIndex[1] === randomIndex[2] || randomIndex.includes(prevRandomIndex1) || randomIndex.includes(prevRandomIndex2) || randomIndex.includes(prevRandomIndex3)){
-    randomIndexArray();
+    preRandomIndex();
   }
 
   prevRandomIndex1 = randomIndex[0];
   prevRandomIndex2 = randomIndex[1];
   prevRandomIndex3 = randomIndex[2];
 
+  displayImgs();
+
+}
+
+function displayImgs() {
+
   imgPlace1.src = ImgObject.allImages[randomIndex[0]].filePath;
   imgPlace1.alt = ImgObject.allImages[randomIndex[0]].name;
-  ImgObject.allImages[randomIndex[0]].timesShown ++;
+  ImgObject.allImages[randomIndex[0]].timesShown++;
 
   imgPlace2.src = ImgObject.allImages[randomIndex[1]].filePath;
   imgPlace2.alt = ImgObject.allImages[randomIndex[1]].name;
-  ImgObject.allImages[randomIndex[1]].timesShown ++;
+  ImgObject.allImages[randomIndex[1]].timesShown++;
 
   imgPlace3.src = ImgObject.allImages[randomIndex[2]].filePath;
   imgPlace3.alt = ImgObject.allImages[randomIndex[2]].name;
-  ImgObject.allImages[randomIndex[2]].timesShown ++;
+  ImgObject.allImages[randomIndex[2]].timesShown++;
 
 }
 
@@ -144,20 +164,12 @@ function createTimesShownArray(){
   }
 }
 
-// function displayResults() {
-//   var ulElement = document.createElement('ul');
+function imgsToStorage() {
+  var storedImgObject = JSON.stringify(ImgObject.allImages);
+  localStorage.setItem('storedImgObject', storedImgObject);
+}
 
-//   for (var i in ImgObject.allImages) {
-//     var liElement = document.createElement('li');
-//     liElement.textContent = 'The ' + ImgObject.allImages[i].name + ' was shown ' + ImgObject.allImages[i].timesShown + ' and was clicked on ' + ImgObject.allImages[i].votes + ' times.';
-
-//     ulElement.appendChild(liElement);
-//   }
-//   surveyResults.appendChild(ulElement);
-//   document.getElementById('survey-title').style.display = 'inherit';
-// }
-
-randomMasterIndex();
+finalRandomIndex();
 
 function displayChart() {
   document.getElementById('survey-title').style.display = 'inherit';
