@@ -15,6 +15,12 @@ var imgVotes = [];
 // array to store # of times shown
 var timesShown = [];
 
+// Holding three arrays to display top scored products
+var topVoteNum = [];
+var topVoteNames = [];
+var topVoteTimesShown = [];
+var topVoteFilePath = [];
+
 // Storing previous indexes
 var prevRandomIndex1 = 0;
 var prevRandomIndex2 = 0;
@@ -56,6 +62,7 @@ function fetchImgsFromStorage() {
   if (storedImgObject && storedImgObject.length) {
     ImgObject.allImages = storedImgObject;
     updateNames();
+    updateVotes();
     return;
   }
 
@@ -216,3 +223,29 @@ function displayChart() {
   });
 }
 
+// want to create function to display top 3 results
+// sort imgVotes array from highest to lowest
+function displayHighScores() {
+  var sortedVotesArray = imgVotes.sort(function (a, b) { return b - a; });
+
+  // I want top three scores
+  for (var i = 0; i < 3; i++) {
+    for (var j = 0; j < ImgObject.allImages.length; j++){
+      if (sortedVotesArray[i] === ImgObject.allImages[j].votes && ImgObject.allImages[j].name !== topVoteNames[i-1]){
+        topVoteNum[i] = ImgObject.allImages[j].votes;
+        console.log(topVoteNum[i]);
+        topVoteNames[i] = ImgObject.allImages[j].name;
+        console.log(topVoteNames[i]);
+        topVoteTimesShown[i] = ImgObject.allImages[j].timesShown;
+        console.log(topVoteTimesShown[i]);
+        topVoteFilePath[i] = ImgObject.allImages[j].filePath;
+        console.log(topVoteFilePath[i]);
+        break;
+      }
+    }
+
+  }
+
+}
+//create a for loop that will match the 3 highest numbers to the images, their names and times shown
+// write html to display these three images in the DOM
