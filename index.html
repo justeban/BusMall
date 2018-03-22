@@ -26,13 +26,15 @@
           <li><a href="#"><i class="fab fa-facebook"></i></a></li>
           <li><a href="#"><i class="fab fa-twitter"></i></a></li>
           <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="#top-products"><i class="fab fa-accusoft"></i></a>
+          </li>
         </ul>
       </div>
     </header>
     <section id="survey">
       <h2>busMall Products Survey</h2>
       <p>Please Select the Image You Prefer</p>
-      <div id="survey-images"> <!-- Where I will display the survey images -->
+      <div id="survey-images" class="card-container"> <!-- Where I will display the survey images -->
         <ul>
           <li>
             <div class="card">
@@ -61,8 +63,33 @@
           </ul>
       </div>
     </section>
-    <section id="survey-results-deck">
-      <h3 id="survey-title">Displaying Survey Results Here:</h3>
+    <section id="top-products">
+      <h2 id="survey-title">Top Products</h2>
+      <div id="high-score-card" class="card-container">
+        <ul>
+          <li>
+            <div class="high-score card">
+              <h3 id="top-product-name1">Placeholder</h3>
+              <img id="top-product-img1" src="https://placehold.it/250x250/444" alt="">
+              <canvas id="top-product-chart1"></canvas>
+            </div>
+          </li>
+          <li>
+            <div class="high-score card">
+              <h3 id="top-product-name2">Placeholder</h3>
+              <img id="top-product-img2" src="https://placehold.it/250x250/444" alt="">
+              <canvas id="top-product-chart2"></canvas>
+            </div>
+          </li>
+          <li>
+            <div class="high-score card">
+              <h3 id="top-product-name3">Placeholder</h3>
+              <img id="top-product-img3" src="https://placehold.it/250x250/444" alt="">
+              <canvas id="top-product-chart3"></canvas>
+            </div>
+          </li>
+        </ul>
+        </div>
       <canvas id="survey-results"></canvas>
       <!-- <div id="survey-results"></div> -->
     </section>

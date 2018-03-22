@@ -123,16 +123,19 @@ header > .links a:hover {
 }
 section {
   text-align: center;
-}
-#survey {
-  background: #4892E7;
   box-shadow: 0 -3px 3px rgba(0,0,0,.4);
   height: auto;
   padding: 40px;
   position: relative;
   width: 100vw;
 }
-#survey > h2 {
+#survey {
+  background: #4892E7;
+}
+#top-products {
+  background:#A8DADC;
+}
+section > h2 {
   border: solid 2px white;
   display: block;
   font-size:1.25em;
@@ -140,24 +143,22 @@ section {
   padding: 15px;
   width: 25%;
 }
-#survey-images {
-  transition: all ease 1.8s;
-}
-#survey-images ul {
+.card-container ul {
   padding: 0;
   list-style-type: none;
 }
-#survey-images li {
+.card-container li {
   display: inline-block;
   margin: 10px;
+  vertical-align: top;
 }
-#survey-images img {
+.card-container img {
   border: inset 6px #01172F;
   border-radius: 50%;
   box-shadow: 0px 0px 1px #000;
   width: 200px;
 }
-#survey-images .links {
+.card-container .links {
   background: #4CB963;
   border-radius: 50%;
   box-shadow: 0px 0px 1px #000;
@@ -168,20 +169,45 @@ section {
   transition: all .1s ease;
   width: 2em;
 }
-#survey-images .links:hover {
+.card-container .links:hover {
   box-shadow: 0px 0px 1px 1px #000;
   transform: scale(1.1);
 }
-div.card {
+.card {
   background: white;
   padding: 1.25em;
   box-shadow: 0px 1px 4px #000;
   border-radius: 4px;
   transition: all .1s ease;
 }
-div.card:hover {
+.card:hover {
   transform: scale(1.03);
   box-shadow: 0px 1px 10px #000;
+}
+.card h3 {
+  font-size: 1.15em;
+  width: 80%;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+.high-score {
+  background: none;
+  width: 22vw;
+}
+.high-score:hover {
+  transform: none;
+}
+.high-score img {
+  display: block;
+  margin: 0 auto;
+}
+.high-score img:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 0px 2px #000;
+}
+.high-score canvas {
+  width: 200px;
+  height: 200px;
 }
 div.card svg {
   bottom: 0;
@@ -190,13 +216,4 @@ div.card svg {
   position: absolute;
   right: 0;
   top: 0;
-}
-#survey-results-deck h3 {
-  display:none;
-  transition: all ease-in-out 2s;
-}
-#survey-results-deck ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
 }

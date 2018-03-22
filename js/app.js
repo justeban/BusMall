@@ -193,16 +193,16 @@ function displayChart() {
     data: {
       labels: imgNames,
       datasets: [{
-        label: 'No. of Votes',
-        data: imgVotes,
-        backgroundColor: 'rgba(230,45, 60, .4)',
+        label: 'No. of Times Shown',
+        data: timesShown,
+        backgroundColor: 'rgba(102,102,255,.5)',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1
       },
       {
-        label: 'No. of Times Shown',
-        data: timesShown,
-        backgroundColor: 'rgba(102,102,255,.5)',
+        label: 'No. of Votes',
+        data: imgVotes,
+        backgroundColor: 'rgba(230,45, 60, .4)',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1
       }]
@@ -210,7 +210,7 @@ function displayChart() {
     options: {
       scales: {
         xAxes: [{
-          stacked: true
+          stacked: false
         }],
         yAxes: [{
           stacked: true,
@@ -245,7 +245,19 @@ function displayHighScores() {
     }
 
   }
+  for (i = 0; i < 3; i++){
+    var nameID = 'top-product-name' + (i + 1);
+    console.log('this is the nameID:', nameID);
+    var nameEl = document.getElementById(nameID);
+    nameEl.innerHTML = topVoteNames[i];
 
+    var imgID = 'top-product-img' + (i + 1);
+    console.log('this is the imgID:', imgID);
+    var imgEl = document.getElementById(imgID);
+    imgEl.src = topVoteFilePath[i];
+    imgEl.alt = topVoteNames[i];
+  }
 }
+displayHighScores();
 //create a for loop that will match the 3 highest numbers to the images, their names and times shown
 // write html to display these three images in the DOM
