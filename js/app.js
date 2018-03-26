@@ -41,7 +41,6 @@ var imgPlace3 = document.getElementById('img3');
 var surveyImages = document.getElementById('survey-images');
 // where survey results will be displayed
 var surveyResults = document.getElementById('survey-results');
-
 // Creating an event Listener and Callback function
 surveyImages.addEventListener('click', imgClicked);
 
@@ -107,7 +106,18 @@ function imgClicked(event) {
   questionsAsked += 1;
 
   if (questionsAsked < numberOfQuestions) {
-    finalRandomIndex();
+
+    // targeting entire card
+    var imgPlace1 = document.getElementById('survey-images').getElementsByClassName('card')[0];
+    var imgPlace2 = document.getElementById('survey-images').getElementsByClassName('card')[1];
+    var imgPlace3 = document.getElementById('survey-images').getElementsByClassName('card')[2];
+
+    imgPlace1.classList.toggle('flip-card');
+    imgPlace2.classList.toggle('flip-card');
+    imgPlace3.classList.toggle('flip-card');
+
+    setTimeout(function () { finalRandomIndex(); }, 280);
+
   } else {
     document.getElementById('survey-images').innerHTML = '';
 
@@ -115,8 +125,9 @@ function imgClicked(event) {
 
     createTimesShownArray();
 
-    // function to save to local storage
     imgsToStorage();
+
+    displayHighScores();
 
     displayChart();
   }
@@ -153,6 +164,7 @@ function displayImgs() {
   imgPlace2.src = ImgObject.allImages[randomIndex[1]].filePath;
   imgPlace2.alt = ImgObject.allImages[randomIndex[1]].name;
   ImgObject.allImages[randomIndex[1]].timesShown++;
+
 
   imgPlace3.src = ImgObject.allImages[randomIndex[2]].filePath;
   imgPlace3.alt = ImgObject.allImages[randomIndex[2]].name;
@@ -223,41 +235,49 @@ function displayChart() {
   });
 }
 
-// want to create function to display top 3 results
-// sort imgVotes array from highest to lowest
+// A function to display top 3 results
+
 function displayHighScores() {
+
   var sortedVotesArray = imgVotes.sort(function (a, b) { return b - a; });
 
-  // I want top three scores
   for (var i = 0; i < 3; i++) {
     for (var j = 0; j < ImgObject.allImages.length; j++){
       if (sortedVotesArray[i] === ImgObject.allImages[j].votes && ImgObject.allImages[j].name !== topVoteNames[i-1]){
         topVoteNum[i] = ImgObject.allImages[j].votes;
-        console.log(topVoteNum[i]);
         topVoteNames[i] = ImgObject.allImages[j].name;
-        console.log(topVoteNames[i]);
         topVoteTimesShown[i] = ImgObject.allImages[j].timesShown;
-        console.log(topVoteTimesShown[i]);
         topVoteFilePath[i] = ImgObject.allImages[j].filePath;
-        console.log(topVoteFilePath[i]);
+
         break;
       }
     }
-
   }
   for (i = 0; i < 3; i++){
     var nameID = 'top-product-name' + (i + 1);
-    console.log('this is the nameID:', nameID);
     var nameEl = document.getElementById(nameID);
     nameEl.innerHTML = topVoteNames[i];
 
     var imgID = 'top-product-img' + (i + 1);
-    console.log('this is the imgID:', imgID);
     var imgEl = document.getElementById(imgID);
     imgEl.src = topVoteFilePath[i];
     imgEl.alt = topVoteNames[i];
+
+    var topProductChart = document.getElementById('top-product-chart' + (i +1));
+    var ctx = topProductChart.getContext('2d');
+
+    var myDoughnutChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [topVoteNum[i], topVoteTimesShown[i]]
+        }],
+        labels: [
+          'No. Times Voted',
+          'No. Times Shown'
+        ]
+      },
+    });
   }
 }
 displayHighScores();
-//create a for loop that will match the 3 highest numbers to the images, their names and times shown
-// write html to display these three images in the DOM
