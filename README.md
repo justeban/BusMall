@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+#BusMall
 
-You can use the [editor on GitHub](https://github.com/justeban/BusMall/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is a project featuring a survey that is done by clicking images. Once you have clicked on the images you prefer for 25 times the data is then collected and displayed via charts in the 'Survey Results' section. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This project also utilizes Local Storage. So you can take a survey, close your browser and walk away, and it will still remember the results of your latest survey and will continue to add the results of each survey together. 
 
-### Markdown
+There is a top product section which is determined by the number of times you voted on an image. The Top 3 Most Popular images will display in the results section. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+You can check out the project's deployment here: [https://justeban.github.io/BusMall/].
 
-```markdown
-Syntax highlighted code block
+##Content
 
-# Header 1
-## Header 2
-### Header 3
+The Background Image was downloaded from [unsplash.com] and was taken by Scott Webb. 
 
-- Bulleted
-- List
+The logo was created by Rijall Blues [https://www.hiretheworld.com/logo-design/contests/fun-logo-design-for-barley-bus-brewery-tours/rijall.blues/entry/200516/] and adapted by me. 
 
-1. Numbered
-2. List
+Icons were available by Font Awesome.
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/justeban/BusMall/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.

@@ -12,6 +12,9 @@ var imgNames = [];
 // array to store image votes
 var imgVotes = [];
 
+// sorted votes array
+var sortedVotesArray = [];
+
 // array to store # of times shown
 var timesShown = [];
 
@@ -62,6 +65,8 @@ function fetchImgsFromStorage() {
     ImgObject.allImages = storedImgObject;
     updateNames();
     updateVotes();
+    createTimesShownArray();
+    displayChart();
     return;
   }
 
@@ -177,6 +182,8 @@ function updateNames() {
 function updateVotes() {
   for (var i in ImgObject.allImages){
     imgVotes[i] = ImgObject.allImages[i].votes;
+    sortedVotesArray.push(imgVotes[i]);
+
   }
 }
 
@@ -201,28 +208,43 @@ function displayChart() {
     data: {
       labels: imgNames,
       datasets: [{
-        label: 'No. of Times Shown',
-        data: timesShown,
-        backgroundColor: 'rgba(102,102,255,.5)',
-        borderColor: 'rgba(255,99,132,1)',
+        label: 'No. of Votes',
+        data: imgVotes,
+        backgroundColor: '#EFF6E0',
+        borderColor: 'white',
         borderWidth: 1
       },
       {
-        label: 'No. of Votes',
-        data: imgVotes,
-        backgroundColor: 'rgba(230,45, 60, .4)',
-        borderColor: 'rgba(255,99,132,1)',
+        label: 'No. of Times Shown',
+        data: timesShown,
+        backgroundColor: '#124559',
+        borderColor: 'white',
         borderWidth: 1
       }]
     },
     options: {
+      legend: {
+        labels: {
+          fontColor: 'white'
+        }
+      },
       scales: {
         xAxes: [{
-          stacked: false
+          gridLines: {
+            color: '#124559'
+          },
+          stacked: false,
+          ticks: {
+            fontColor: 'white'
+          }
         }],
         yAxes: [{
+          gridLines: {
+            color: '#124559'
+          },
           stacked: true,
           ticks: {
+            fontColor: 'white',
             beginAtZero: true
           }
         }]
@@ -239,11 +261,13 @@ function displayHighScores() {
 
   if (storedImgObject && storedImgObject.length) {
 
+    var noHighScore = document.getElementById('noHighScore');
+    noHighScore.style.display = 'none';
+
     var highScoreCards = document.getElementById('high-score-card');
     highScoreCards.style.visibility = 'inherit';
 
-
-    var sortedVotesArray = imgVotes.sort(function (a, b) { return b - a; });
+    sortedVotesArray.sort(function (a, b) { return b - a; });
 
     for (var i = 0; i < 3; i++) {
       for (var j = 0; j < ImgObject.allImages.length; j++){
@@ -274,13 +298,24 @@ function displayHighScores() {
         type: 'doughnut',
         data: {
           datasets: [{
-            data: [topVoteNum[i], topVoteTimesShown[i]]
+            data: [topVoteNum[i], topVoteTimesShown[i]],
+            backgroundColor: [
+              '#EFF6E0',
+              '#124559'
+            ]
           }],
           labels: [
             'No. Times Voted',
             'No. Times Shown'
           ]
         },
+        options: {
+          legend: {
+            labels: {
+              fontColor: 'white' //set your desired color
+            }
+          }
+        }
       });
     }
   } else {
