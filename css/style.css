@@ -132,10 +132,10 @@ section {
   width: 100vw;
 }
 #survey {
-  background: #4892E7;
+  background: #124559;
 }
 #top-products {
-  background:#A8DADC;
+  background:#598392
 }
 section > h2 {
   border: solid 2px white;
@@ -220,6 +220,76 @@ div.card svg {
   position: absolute;
   right: 0;
   top: 0;
+}
+#quiz-overlay {
+  background: rgba(0,0,0,0.9);
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+#quiz-overlay h3 {
+  margin-top: 2em;
+}
+#quiz-overlay input {
+  background: none;
+  border: none;
+  border-bottom: solid 1px white;
+  color: white;
+  display: block;
+  margin: 2em auto;
+  padding: .25em;
+  font-size: 2em;
+  text-align: center;
+  transition: all .3s ease-in-out;
+  width: 50%;
+}
+#quiz-overlay input:focus {
+  border-bottom: solid 3px white;
+  outline: none;
+}
+#quiz-overlay button {
+  animation: pulse 1s linear infinite alternate;
+			-webkit-animation: pulse 1s linear infinite alternate;
+  background: #124559;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2em;
+  padding: .5em;
+  text-transform: uppercase;
+  transition: all .2s ease-in-out;
+  width: 10%;
+}
+
+@-webkit-keyframes pulse {
+			100% {
+				transform: translateY(6.9px); 
+			} 
+		}
+
+		@keyframes pulse {
+			100% {
+				transform: translateY(6.9px); 
+			} 
+    }
+#quiz-overlay button:active {
+  box-shadow: 0 1px 0 0 #383838;
+  color: rgba(0, 0, 0,.45);
+  outline: none;
+}
+#quiz-overlay button:focus {
+  box-shadow: inset 1px 1px 1px 1px;
+  outline: none;
+}
+::placeholder {
+  color: white;
+}
+
+#noHighScore {
+  display: none;
 }
 
 .flip-card {

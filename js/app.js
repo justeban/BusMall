@@ -89,8 +89,6 @@ function fetchImgsFromStorage() {
 
 }
 
-fetchImgsFromStorage();
-
 function imgClicked(event) {
 
   if(event.target.id === 'img1') {
@@ -194,8 +192,6 @@ function imgsToStorage() {
   localStorage.setItem('storedImgObject', storedImgObject);
 }
 
-finalRandomIndex();
-
 function displayChart() {
   document.getElementById('survey-title').style.display = 'inherit';
 
@@ -239,45 +235,67 @@ function displayChart() {
 
 function displayHighScores() {
 
-  var sortedVotesArray = imgVotes.sort(function (a, b) { return b - a; });
+  var storedImgObject = JSON.parse(localStorage.getItem('storedImgObject'));
 
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < ImgObject.allImages.length; j++){
-      if (sortedVotesArray[i] === ImgObject.allImages[j].votes && ImgObject.allImages[j].name !== topVoteNames[i-1]){
-        topVoteNum[i] = ImgObject.allImages[j].votes;
-        topVoteNames[i] = ImgObject.allImages[j].name;
-        topVoteTimesShown[i] = ImgObject.allImages[j].timesShown;
-        topVoteFilePath[i] = ImgObject.allImages[j].filePath;
+  if (storedImgObject && storedImgObject.length) {
 
-        break;
+    var highScoreCards = document.getElementById('high-score-card');
+    highScoreCards.style.visibility = 'inherit';
+
+
+    var sortedVotesArray = imgVotes.sort(function (a, b) { return b - a; });
+
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < ImgObject.allImages.length; j++){
+        if (sortedVotesArray[i] === ImgObject.allImages[j].votes && ImgObject.allImages[j].name !== topVoteNames[i-1]){
+          topVoteNum[i] = ImgObject.allImages[j].votes;
+          topVoteNames[i] = ImgObject.allImages[j].name;
+          topVoteTimesShown[i] = ImgObject.allImages[j].timesShown;
+          topVoteFilePath[i] = ImgObject.allImages[j].filePath;
+
+          break;
+        }
       }
     }
-  }
-  for (i = 0; i < 3; i++){
-    var nameID = 'top-product-name' + (i + 1);
-    var nameEl = document.getElementById(nameID);
-    nameEl.innerHTML = topVoteNames[i];
+    for (i = 0; i < 3; i++){
+      var nameID = 'top-product-name' + (i + 1);
+      var nameEl = document.getElementById(nameID);
+      nameEl.innerHTML = topVoteNames[i];
 
-    var imgID = 'top-product-img' + (i + 1);
-    var imgEl = document.getElementById(imgID);
-    imgEl.src = topVoteFilePath[i];
-    imgEl.alt = topVoteNames[i];
+      var imgID = 'top-product-img' + (i + 1);
+      var imgEl = document.getElementById(imgID);
+      imgEl.src = topVoteFilePath[i];
+      imgEl.alt = topVoteNames[i];
 
-    var topProductChart = document.getElementById('top-product-chart' + (i +1));
-    var ctx = topProductChart.getContext('2d');
+      var topProductChart = document.getElementById('top-product-chart' + (i +1));
+      var ctx = topProductChart.getContext('2d');
 
-    var myDoughnutChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        datasets: [{
-          data: [topVoteNum[i], topVoteTimesShown[i]]
-        }],
-        labels: [
-          'No. Times Voted',
-          'No. Times Shown'
-        ]
-      },
-    });
+      var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [topVoteNum[i], topVoteTimesShown[i]]
+          }],
+          labels: [
+            'No. Times Voted',
+            'No. Times Shown'
+          ]
+        },
+      });
+    }
+  } else {
+
+    var noHighScore = document.getElementById('noHighScore');
+    noHighScore.style.display = 'inherit';
+
+    highScoreCards = document.getElementById('high-score-card');
+    highScoreCards.style.visibility = 'hidden';
+
   }
 }
+
+fetchImgsFromStorage();
+
+finalRandomIndex();
+
 displayHighScores();
